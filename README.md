@@ -1,13 +1,13 @@
 
-# HERO BANK WEBSITE
+# Hero Bank Website
 ---
 
-GROUP MEMBERS:
+Group Members:
 --
-TALHAH MOTALA - ST10146418  
-LUBNAH OLIDEEN - ST10216772  
+Talhah Motala - ST10146418  
+Lubnah Olideen - ST10216772  
 
-VIDEO LINK
+Hero Bank Website Demonstration Link
 ---
 [Project Demo](https://1drv.ms/v/s!Ag9Xg-EcWzjcgsIvBocYMZfdJVdMeg?e=rwErC3)
 
