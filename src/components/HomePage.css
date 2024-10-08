@@ -1,0 +1,172 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1100px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.logo {
+  height: 50px;
+}
+
+h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 20px;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.dashboard-content {
+  text-align: center;
+  max-width: 1100px;
+  margin-top: 20px;
+}
+
+.dashboard-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 700px;
+  align-items: center;
+}
+
+/* Account Overview (Row 1, Full Width) */
+.dashboard-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
+
+.dashboard-btn:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+
+.column-group {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 700px;
+  justify-content: center;
+}
+
+/* Row 3: International Payments (Slightly larger) */
+.international-payment-btn {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 25px; /* Slightly larger padding */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px; /* Larger width for International Payments */
+}
+
+.international-payment-btn:hover {
+  background-color: #1e8449;
+  transform: scale(1.05);
+}
+
+/* Notifications & Profile & Settings in a row */
+.lower-column-group {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 700px;
+  justify-content: center;
+}
+
+.notifications-btn {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.notifications-btn:hover {
+  background-color: #e67e22;
+  transform: scale(1.05);
+}
+
+.profile-settings-btn {
+  background-color: #8e44ad;
+  color: white;
+  border: none;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-settings-btn:hover {
+  background-color: #7d3c98;
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-btn, .international-payment-btn, .notifications-btn, .profile-settings-btn {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .column-group, .lower-column-group {
+    flex-direction: column; 
+  }
+}
+
+

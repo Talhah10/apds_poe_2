@@ -1,0 +1,30 @@
+
+.support-page {
+    padding: 60px;
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  a {
+    color: #3498db;
+    text-decoration: underline;
+  }
+  
+  a:hover {
+    color: #2980b9;
+  }
+  

@@ -1,0 +1,104 @@
+.account-container {
+  padding: 30px;
+  background-color: #f4f6f9;
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+}
+
+/* Account Summary Section */
+.account-summary {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.account-summary h2 {
+  color: #2980b9;
+  margin-bottom: 15px;
+}
+
+.account-summary p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Recent Transactions Section */
+.recent-transactions {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.recent-transactions h2 {
+  color: #e67e22;
+  margin-bottom: 15px;
+}
+
+.recent-transactions p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Upcoming Payments Section */
+.upcoming-payments {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.upcoming-payments h2 {
+  color: #c0392b;
+  margin-bottom: 15px;
+}
+
+.upcoming-payments p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Additional Info Section */
+.additional-info {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.additional-info h2 {
+  color: #27ae60;
+  margin-bottom: 15px;
+}
+
+.additional-info p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* General Styling */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
