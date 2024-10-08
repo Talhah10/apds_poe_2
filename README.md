@@ -1,3 +1,18 @@
+HERO BANK WEBSITE
+---
+
+GROUP MEMBERS;
+--
+TALHAH MOTALA - ST10146418
+
+LUBNAH OLIDEEN - ST10216772
+
+VIDEO LINK
+---
+https://1drv.ms/v/s!Ag9Xg-EcWzjcgsIvBocYMZfdJVdMeg?e=rwErC3
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
