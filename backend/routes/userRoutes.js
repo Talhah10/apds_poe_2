@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
@@ -8,9 +8,8 @@ const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
 
-// Use Helmet middleware for various security headers
+// Use Helmet middleware for setting various HTTP headers
 router.use(helmet());
-router.use(helmet.frameguard({ action: 'deny' })); // Prevents Clickjacking
 
 // Apply rate limiting to all routes
 const limiter = rateLimit({
@@ -28,11 +27,16 @@ const validateInput = (method) => {
                     .matches(/^[a-zA-Z0-9_]{3,20}$/)
                     .withMessage('Username must be 3-20 characters long and can only contain letters, numbers, and underscores'),
                 body('password')
-                    .isLength({ min: 8 })
-                    .withMessage('Password must be at least 8 characters long'),
+                    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+                    .withMessage('Password must be at least 8 characters long and include one uppercase letter, one lowercase letter, one number, and one special character'),
                 body('email')
-                    .isEmail()
-                    .withMessage('Invalid email format')
+                    .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+                    .withMessage('Invalid email format'),
+                // Optional: add phone number validation if required
+                body('phone')
+                    .optional()
+                    .matches(/^[0-9]{10}$/)
+                    .withMessage('Invalid phone number format')
             ];
         }
         case 'login': {
@@ -41,12 +45,12 @@ const validateInput = (method) => {
                     .matches(/^[a-zA-Z0-9_]{3,20}$/)
                     .withMessage('Invalid username format'),
                 body('password')
-                    .isLength({ min: 8 })
-                    .withMessage('Invalid password')
+                    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+                    .withMessage('Invalid password format')
             ];
         }
     }
-};
+}
 
 // User Registration Route
 router.post('/register', validateInput('register'), async (req, res) => {
@@ -62,7 +66,7 @@ router.post('/register', validateInput('register'), async (req, res) => {
             });
         }
 
-        const { username, password, email } = req.body;
+        const { username, password, email, phone } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -78,7 +82,7 @@ router.post('/register', validateInput('register'), async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
 
         // Create a new user
-        const user = new User({ username, password: hashedPassword, email });
+        const user = new User({ username, password: hashedPassword, email, phone });
         await user.save();
 
         res.status(201).json({ message: 'User registered successfully' });
@@ -146,4 +150,5 @@ router.post('/login', validateInput('login'), async (req, res) => {
     }
 });
 
+// Export the router
 module.exports = router;
