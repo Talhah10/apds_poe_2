@@ -99,3 +99,14 @@ const PORT = process.env.PORT || 443;
 httpsServer.listen(PORT, () => {
     console.log(`HTTPS Server running on port ${PORT}`);
 });
+
+// Use the user routes
+app.use('/api/users', userRoutes);
+
+// Export app for testing
+module.exports = app;
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
