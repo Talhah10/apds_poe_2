@@ -1,5 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
@@ -8,8 +8,9 @@ const rateLimit = require('express-rate-limit');
 
 const router = express.Router();
 
-// Use Helmet middleware for setting various HTTP headers
+// Use Helmet middleware for various security headers
 router.use(helmet());
+router.use(helmet.frameguard({ action: 'deny' })); // Prevents Clickjacking
 
 // Apply rate limiting to all routes
 const limiter = rateLimit({
@@ -32,7 +33,7 @@ const validateInput = (method) => {
                 body('email')
                     .isEmail()
                     .withMessage('Invalid email format')
-            ]
+            ];
         }
         case 'login': {
             return [
@@ -42,10 +43,10 @@ const validateInput = (method) => {
                 body('password')
                     .isLength({ min: 8 })
                     .withMessage('Invalid password')
-            ]
+            ];
         }
     }
-}
+};
 
 // User Registration Route
 router.post('/register', validateInput('register'), async (req, res) => {
@@ -145,5 +146,4 @@ router.post('/login', validateInput('login'), async (req, res) => {
     }
 });
 
-// Export the router
 module.exports = router;
