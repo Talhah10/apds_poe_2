@@ -2,77 +2,100 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
+// User routes
 const userRoutes = require('./routes/userRoutes'); // Adjust path if necessary
 
-const session = require('express-session');
-const rateLimit = require('express-rate-limit');
 const app = express();
 
-// Security Middleware
-const clickjackingProtection = (req, res, next) => {
-    res.setHeader('X-Frame-Options', 'DENY'); // Prevent clickjacking
-    next();
-};
-
-const sanitizeInput = (input) => {
-    return input.replace(/[<>'"]/g, ''); // Remove potential XSS characters
-};
-
-const xssProtection = (req, res, next) => {
-    for (let field in req.body) {
-        req.body[field] = sanitizeInput(req.body[field]);
-    }
-    next();
-};
-
-// Rate limiter to prevent DDoS
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100                  // Limit each IP to 100 requests per windowMs
-});
-
-// Apply Middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(limiter);               // Apply DDoS protection
-app.use(clickjackingProtection); // Apply clickjacking protection
-app.use(xssProtection);          // Apply XSS protection
+app.use(helmet());
 
-// Session Jacking Protection
-app.use(session({
-    secret: 'secureRandomSecret', // Replace with a secure, random value
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Set to true in production
-        sameSite: 'strict'
+// Apply rate limiting to all routes
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// Input validation middleware
+const validateInput = (method) => {
+    switch (method) {
+        case 'register': {
+            return [
+                body('username')
+                    .matches(/^[a-zA-Z0-9_]{3,20}$/)
+                    .withMessage('Username must be 3-20 characters long and can only contain letters, numbers, and underscores'),
+                body('password')
+                    .isLength({ min: 8 })
+                    .withMessage('Password must be at least 8 characters long'),
+                body('email')
+                    .isEmail()
+                    .withMessage('Invalid email format')
+            ]
+        }
+        case 'login': {
+            return [
+                body('username')
+                    .matches(/^[a-zA-Z0-9_]{3,20}$/)
+                    .withMessage('Invalid username format'),
+                body('password')
+                    .isLength({ min: 8 })
+                    .withMessage('Invalid password')
+            ]
+        }
     }
-}));
+}
 
-// Enforce HTTPS for Man-in-the-Middle Protection
+// User Registration Route
+app.post('/register', validateInput('register'), async (req, res) => {
+    // Registration logic here...
+});
+
+// User Login Route
+app.post('/login', validateInput('login'), async (req, res) => {
+    // Login logic here...
+});
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log("MongoDB connected"))
+    .catch(err => console.error("MongoDB connection error:", err));
+
+// Define a simple route
+app.get('/', (req, res) => {
+    res.send('API is running...');
+});
+
+// Use the user routes
+app.use('/api/users', userRoutes);
+
+// Ensure HTTPS traffic by redirecting HTTP to HTTPS (only for production)
 app.use((req, res, next) => {
-    if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
         return res.redirect('https://' + req.headers.host + req.url);
     }
     next();
 });
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected"))
-    .catch(err => console.error("MongoDB connection error:", err));
+// Load SSL certificate files
+const privateKey = fs.readFileSync(path.join(__dirname, 'certificates', 'privkey.pem'), 'utf8');
+const certificate = fs.readFileSync(path.join(__dirname, 'certificates', 'cert.pem'), 'utf8');
+const ca = fs.readFileSync(path.join(__dirname, 'certificates', 'chain.pem'), 'utf8');
+const credentials = { key: privateKey, cert: certificate, ca: ca };
 
-// Default Route
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
+// Create an HTTPS server
+const httpsServer = https.createServer(credentials, app);
 
-// User Routes
-app.use('/api/users', userRoutes);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Run the server on port 443 (HTTPS)
+const PORT = process.env.PORT || 443;
+httpsServer.listen(PORT, () => {
+    console.log(`HTTPS Server running on port ${PORT}`);
 });
