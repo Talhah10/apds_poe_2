@@ -28,16 +28,7 @@ jobs:
       - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      - run:
-          name: Install Utilities
-          command: |
-            curl -Lo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
-            unzip sonar-scanner.zip
-            mv sonar-scanner-* sonar-scanner
-            export PATH=$PATH:$(pwd)/sonar-scanner/bin
-      - run:
-          name: Find Files
-          command: find .
+      - run: find .
       - attach_workspace:
           at: ~/workspace
       - run: | 
