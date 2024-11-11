@@ -33,8 +33,7 @@ jobs:
           -Dsonar.sources="."
 
 workflows:
-  say-hello-workflow:
-  
+  sonarqube-workflow:  
     jobs:
       - say-hello
       - sonarqube
