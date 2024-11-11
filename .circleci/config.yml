@@ -1,40 +1,43 @@
 version: 2.1
 
 jobs:
+  say-hello:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - run:
+          name: "Say hello"
+          command: "echo Hello, World!"
+
   sonarqube:
     working_directory: ~/build
     docker:
       - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      - run: find .
+      - run:
+          name: Find
+          command: find .
       - attach_workspace:
           at: /workspace
       - run:
-          name: Run SonarQube Analysis
+          name: Sonar Scanner
           command: |
             SONAR_BRANCH="${CIRCLE_BRANCH:-master}"
             echo "Sonar branch value is: $SONAR_BRANCH"
             echo "Sonar org value is: $SONAR_ORG"
-            
             sonar-scanner \
               -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
               -Dsonar.organization="$SONAR_ORG" \
-              -Dsonar.host.url="https://sonarcloud.io" \
+              -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.exclusions="**/android/**,**/ios/**" \
               -Dsonar.login="$SONAR_TOKEN" \
               -Dsonar.branch.name="$SONAR_BRANCH" \
-              -Dsonar.sources=.
-
-  hello-job:
-    docker:
-      - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
-    steps:
-      - checkout # check out the code in the project directory
-      - run: echo "hello world" # run the `echo` command
+              -Dsonar.sources="."
 
 workflows:
-  my-workflow:
+  say-hello-workflow:
     jobs:
-      - hello-job
+      - say-hello
       - sonarqube
