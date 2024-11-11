@@ -31,7 +31,10 @@ jobs:
       - run:
           name: Install Utilities
           command: |
-            apt-get update && apt-get install -y findutils
+            curl -Lo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip
+            unzip sonar-scanner.zip
+            mv sonar-scanner-* sonar-scanner
+            export PATH=$PATH:$(pwd)/sonar-scanner/bin
       - run:
           name: Find Files
           command: find .
