@@ -32,7 +32,6 @@ jobs:
 
 
 workflows:
-  say-hello-workflow:
-    jobs:
-      - say-hello
+  sonarqube-workflow:
+    jobs:      
       - sonarqube
