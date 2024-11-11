@@ -7,12 +7,6 @@ jobs:
       - image: sonarsource/sonar-scanner-cli:latest
     resource_class: small
     steps:
-      - run:
-         name: Update package list and install findutils
-         command: |
-           apt-get update
-           apt-get install -y findutils
-      - run: find .
       - attach_workspace:
           at: ~/workspace
       - run: |
